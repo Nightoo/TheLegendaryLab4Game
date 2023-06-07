@@ -26,7 +26,7 @@ public:
     }
     virtual void go_next() = 0;
     virtual bool is_on() = 0;
-    virtual void update() {};
+    virtual bool update() {};
 };
 
 class Application{
@@ -39,7 +39,7 @@ public:
     ~Application() {delete state;}
 
     void set_next_state(IState* st){
-        //delete state;
+        //if (state) delete state;
         state = st;
         state->set_app(this);
     }
@@ -51,8 +51,10 @@ public:
     bool active() {return state->is_on();}
 
     void run() {
-        while (state->is_on()) {
-            state->update();
+        while (active()) {
+            if(!state->update()){
+                state->go_next();
+            };
             }
         }
 };
@@ -69,7 +71,6 @@ public:
     }
 protected:
     virtual void event_handling() {};
-    virtual void update() {};
     virtual void render() {};
 };
 
@@ -128,16 +129,17 @@ public:
         window->draw(menu->square2);
     }
 
-    void update() override{
+
+    bool update() override{
         this->window->clear();
         menu->square.move(0, 0.01);
         if (menu->square.getGlobalBounds().intersects(menu->square2.getGlobalBounds())){
-            this->go_next();
+            return false;
         }
         window->draw(menu->square);
         window->draw(menu->square2);
         window->display();
-
+        return true;
     }
 };
 
