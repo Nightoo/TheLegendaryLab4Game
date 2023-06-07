@@ -118,17 +118,58 @@ public:
         return true;
     }
 };
+
+class Button{
+public:
+    RectangleShape button;
+    Text text;
+    Color color;
+    RectangleShape select_shape;
+    bool selected = false;
+    Button(string txt = "level", Color color_ = Color::Red, Vector2f pos = Vector2f(100, 50), Vector2f size = Vector2f(150, 100)){
+        button = RectangleShape(size);
+        color = color_;
+        button.setFillColor(color);
+        button.setPosition(pos);
+        Font font;
+        if (!font.loadFromFile("c:/windows/fonts/arial.ttf")){
+            cout << "___";
+        }
+        text.setFont(font);
+        text.setString("txt");
+        text.setCharacterSize(30);
+        text.setFillColor(Color::White);
+        text.setPosition(pos);
+        select_shape = RectangleShape(Vector2f(size.x + 20, size.y + 20));
+        select_shape.setFillColor(Color::Yellow);
+        select_shape.setPosition(Vector2f(pos.x-10, pos.y-10));
+
+    }
+    void show(RenderWindow* window){
+        if (selected){
+            window->draw(select_shape);
+        }
+        window->draw(button);
+    }
+
+    void select(){
+        selected = true;
+    }
+
+    void unselect(){
+        selected = false;
+    }
+};
+
 class Menu{
 public:
-    RectangleShape square;
-    RectangleShape square2;
+    Button easy;
+    Button medium;
+    Button hard;
     Menu(){
-        square = RectangleShape(Vector2f(100, 100));
-        square.setFillColor(Color::Red);
-        square.setPosition(Vector2f(100, 100));
-        square2 = RectangleShape(Vector2f(100, 100));
-        square2.setFillColor(Color::Green);
-        square2.setPosition(Vector2f(100, 230));
+        easy = Button("EASY", Color(0, 100, 255));
+        medium = Button("MEDIUM", Color(0, 100, 255), Vector2f(100, 200));
+        hard = Button("HARD",Color(0, 100, 255), Vector2f(100, 350));
     }
 };
 
@@ -140,9 +181,9 @@ public:
     RenderWindow* window;
     Menu* menu;
     SelectLevelState(Application* app_ = nullptr, string mode_ = "mode", string title_ = "title"){
-        this->window = new RenderWindow(VideoMode(400, 400), "Select");
+        this->window = new RenderWindow(VideoMode(400, 600), "Select");
         this->menu = new Menu();
-        this->render();
+        //this->render();
     }
 
     void go_next() override{
@@ -157,19 +198,27 @@ public:
     }
 
     void render() override{
-        window->draw(menu->square);
-        window->draw(menu->square2);
+        menu->easy.show(window);
+        menu->medium.show(window);
+        menu->hard.show(window);
     }
 
 
     bool update() override{
         window->clear();
-        menu->square.move(0, 0.01);
+        /*menu->square.move(0, 0.01);
         if (menu->square.getGlobalBounds().intersects(menu->square2.getGlobalBounds())){
             return false;
         }
         window->draw(menu->square);
         window->draw(menu->square2);
+        window->display();*/
+        if (Keyboard::isKeyPressed(Keyboard::E)) { menu->easy.select();menu->medium.unselect();menu->hard.unselect(); }
+        if (Keyboard::isKeyPressed(Keyboard::M)) { menu->medium.select();menu->easy.unselect();menu->hard.unselect(); }
+        if (Keyboard::isKeyPressed(Keyboard::H)) { menu->hard.select();menu->easy.unselect(); menu->medium.unselect(); }
+        menu->easy.show(window);
+        menu->medium.show(window);
+        menu->hard.show(window);
         window->display();
         return true;
     }
