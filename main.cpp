@@ -26,19 +26,20 @@ public:
     }
     virtual void go_next() = 0;
     virtual bool is_on() = 0;
+    virtual void update() {};
 };
 
 class Application{
 public:
-    IState* state;
-    Application(IState* state_ = nullptr){
+    IState* state = nullptr;
+    Application(IState* state_ = nullptr) {
         set_next_state(state_);
     }
 
     ~Application() {delete state;}
 
     void set_next_state(IState* st){
-        //if (state){ delete state;};
+        //delete state;
         state = st;
         state->set_app(this);
     }
@@ -51,14 +52,28 @@ public:
 
     void run() {
         while (state->is_on()) {
-            int x;
-            cin >> x;
-            if (x == 1) {
-                state->go_next();
+            state->update();
             }
         }
-    };
 };
+
+class IWindowKeeper {
+public:
+    string mode;
+    string title;
+    RenderWindow* window;
+    IWindowKeeper(string mode_ = "mode", string title_ = "title"){
+        this->window = nullptr;
+        mode = mode_;
+        title = title_;
+    }
+protected:
+    virtual void event_handling() {};
+    virtual void update() {};
+    virtual void render() {};
+};
+
+
 class GameState;
 
 
@@ -71,16 +86,58 @@ public:
         return true;
     }
 };
-
-class SelectLevelState: public IState{
+class Menu{
 public:
+    RectangleShape square;
+    RectangleShape square2;
+    Menu(){
+        square = RectangleShape(Vector2f(100, 100));
+        square.setFillColor(Color::Red);
+        square.setPosition(Vector2f(100, 100));
+        square2 = RectangleShape(Vector2f(100, 100));
+        square2.setFillColor(Color::Green);
+        square2.setPosition(Vector2f(100, 230));
+    }
+};
+
+class SelectLevelState: public IState, public IWindowKeeper{
+public:
+    Application* app;
+    string mode;
+    string title;
+    RenderWindow* window;
+    Menu* menu;
+    SelectLevelState(Application* app_ = nullptr, string mode_ = "mode", string title_ = "title"){
+        this->window = new RenderWindow(VideoMode(400, 400), "Select");
+        this->menu = new Menu();
+        this->render();
+    }
+
     void go_next() override{
+        this->window->close();
         cout << "Select -> Game" << endl;
         app->set_next_state(new GameState);
     }
     bool is_on() override{
         cout << "Select" << endl;
         return true;
+    }
+
+    void render() override{
+        window->draw(menu->square);
+        window->draw(menu->square2);
+    }
+
+    void update() override{
+        this->window->clear();
+        menu->square.move(0, 0.01);
+        if (menu->square.getGlobalBounds().intersects(menu->square2.getGlobalBounds())){
+            this->go_next();
+        }
+        window->draw(menu->square);
+        window->draw(menu->square2);
+        window->display();
+
     }
 };
 
@@ -98,7 +155,6 @@ void GameState::go_next() {
     cout << "Game -> Exit" << endl;
     app->set_next_state(new ExitState);
 }
-
 
 
 int main() {
