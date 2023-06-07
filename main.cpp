@@ -26,7 +26,7 @@ public:
     }
     virtual void go_next() = 0;
     virtual bool is_on() = 0;
-    virtual bool update() {};
+    virtual bool update() {return true;};
 };
 
 class Application{
@@ -77,10 +77,41 @@ protected:
 
 class GameState;
 
-
-
-class GameState: public IState{
+class Room{
 public:
+    CircleShape polygon;
+    Room() {
+        polygon = CircleShape(100,9);
+        polygon.setFillColor(Color::Yellow);
+        polygon.setPosition(Vector2f(400, 0));
+    }
+};
+
+
+class GameState: public IState, public IWindowKeeper{
+public:
+    Application* app;
+    string mode;
+    string title;
+    RenderWindow* window;
+    Room* room;
+    GameState(Application* app_ = nullptr, string mode_ = "mode", string title_ = "title"){
+        this->window = new RenderWindow(VideoMode(600, 600), "Game");
+        this->room = new Room();
+        this->render();
+    }
+
+    void render() override{
+        window->draw(room->polygon);
+    }
+
+    bool update() override{
+        window->clear();
+        window->draw(room->polygon);
+        window->display();
+        return true;
+    }
+
     void go_next() override;
     bool is_on() override{
         cout << "Game" << endl;
@@ -115,7 +146,8 @@ public:
     }
 
     void go_next() override{
-        this->window->close();
+        window->clear();
+        window->close();
         cout << "Select -> Game" << endl;
         app->set_next_state(new GameState);
     }
@@ -131,7 +163,7 @@ public:
 
 
     bool update() override{
-        this->window->clear();
+        window->clear();
         menu->square.move(0, 0.01);
         if (menu->square.getGlobalBounds().intersects(menu->square2.getGlobalBounds())){
             return false;
