@@ -11,6 +11,7 @@ public:
     sf::Text text;
     sf::Color color;
     sf::RectangleShape select_shape;
+    sf::Font font;
     bool selected = false;
 
     Button(
@@ -23,16 +24,12 @@ public:
         color = color_;
         button.setFillColor(color);
         button.setPosition(pos);
-        sf::Font font;
         if (!font.loadFromFile("c:/windows/fonts/arial.ttf"))
         {
-            std::cout << "___";
+            throw "FONT ERROR";
         }
-        text.setFont(font);
-        text.setString("txt");
-        text.setCharacterSize(30);
-        text.setFillColor(sf::Color::White);
-        text.setPosition(pos);
+        text.setPosition(sf::Vector2f(pos.x, pos.y+30));
+        text.setString(txt);
         select_shape = sf::RectangleShape(sf::Vector2f(size.x + 20, size.y + 20));
         select_shape.setFillColor(sf::Color::Yellow);
         select_shape.setPosition(sf::Vector2f(pos.x - 10, pos.y - 10));
@@ -40,11 +37,17 @@ public:
 
     void show(sf::RenderWindow *window)
     {
+        text.setFont(font);
+        text.setCharacterSize(30);
+        text.setFillColor(sf::Color::Black);
         if (selected)
         {
             window->draw(select_shape);
+            text.setFillColor(sf::Color::Yellow);
+
         }
         window->draw(button);
+        window->draw(text);
     }
 
     void select()
