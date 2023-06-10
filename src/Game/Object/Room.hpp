@@ -1,16 +1,16 @@
 #pragma once
-
+#include "Map.hpp"
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 class Room
 {
 public:
-    sf::CircleShape polygon;
+    Map map;
+    std::vector<std::string> map_s;
 
     Room()
     {
-        polygon = sf::CircleShape(100, 9);
-        polygon.setFillColor(sf::Color::Yellow);
-        polygon.setPosition(sf::Vector2f(400, 0));
+        map_s = map.make_map();
     }
 };

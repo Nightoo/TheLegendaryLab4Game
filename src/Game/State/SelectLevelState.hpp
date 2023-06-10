@@ -57,16 +57,8 @@ public:
     bool update() override
     {
         window->clear();
-        /*menu->square.move(0, 0.01);
-        if (menu->square.getGlobalBounds().intersects(menu->square2.getGlobalBounds())){
-            return false;
-        }
-        window->draw(menu->square);
-        window->draw(menu->square2);
-        window->display();*/
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
         {
-            go_next();
             return false;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
