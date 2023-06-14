@@ -21,7 +21,7 @@ public:
         : IWindowKeeper(mode_, title_)
     {
         this->app = app_;
-        this->window = new sf::RenderWindow(sf::VideoMode(600, 600), "Game");
+        this->window = new sf::RenderWindow(sf::VideoMode(800, 800), "Game");
         this->room = new Room();
         this->render();
     }
@@ -34,13 +34,13 @@ public:
 
     void render() override
     {
-        window->draw(room->polygon);
+        room->show(window);
     }
 
     bool update() override
     {
         window->clear();
-        window->draw(room->polygon);
+        render();
         window->display();
         return true;
     }
@@ -53,7 +53,7 @@ public:
 
     bool is_on() override
     {
-        std::cout << "Game" << std::endl;
+        //std::cout << "Game" << std::endl;
         return true;
     }
 };
