@@ -8,6 +8,7 @@
 #include "Game/Component/IWindowKeeper.hpp"
 #include "Game/Object/Room.hpp"
 #include "Game/Object/Player.hpp"
+#include "Game/Object/Enemy.hpp"
 #include "Definitions.hpp"
 
 class GameState : public IState, public IWindowKeeper
@@ -16,6 +17,7 @@ public:
     Application *app;
     Room *room;
     Player *player;
+    Enemy *enemy;
 
     GameState(
         Application *app_,
@@ -27,6 +29,7 @@ public:
         this->window = new sf::RenderWindow(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Game");
         this->room = new Room();
         this->player = new Player(room);
+        this->enemy = new Enemy(room);
         this->render();
     }
 
@@ -51,6 +54,7 @@ public:
                 if (event.key.code == sf::Keyboard::A) { player->move_left(); }
                 if (event.key.code == sf::Keyboard::S) { player->move_down(); }
                 if (event.key.code == sf::Keyboard::D) { player->move_right(); }
+                enemy->move(player);
             }
             window->display();
         }
