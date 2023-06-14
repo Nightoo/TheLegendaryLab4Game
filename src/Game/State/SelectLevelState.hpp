@@ -6,6 +6,7 @@
 #include "Game/State/GameState.hpp"
 #include "Game/Component/IWindowKeeper.hpp"
 #include "Game/Component/Menu.hpp"
+#include "Definitions.hpp"
 
 class SelectLevelState : public IState, public IWindowKeeper
 {
@@ -21,7 +22,7 @@ public:
         : IWindowKeeper(mode_, title_)
     {
         this->app = app_;
-        this->window = new sf::RenderWindow(sf::VideoMode(400, 600), "Select");
+        this->window = new sf::RenderWindow(sf::VideoMode(MENU_WIDTH, MENU_HEIGHT), "Select");
         this->menu = new Menu();
         // this->render();
     }

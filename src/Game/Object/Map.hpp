@@ -1,32 +1,9 @@
-/*#include <iostream>
-#include <string>
-#include <cstdlib>
-#include <algorithm>
-#include "Game/Object/Objects.hpp"
-#define DOORS_NUMBER 4
-
-class Map{
-public:
-    int size;
-    int key_pos_x;
-    int key_pos_y;
-    int doors;
-    int *Doors;
-    int walls;
-    Map(int _size);
-    void add_to_string_map();
-    void make_row();
-    void make_row_with_key();
-    void make_horizontal_wall();
-    std::vector<std::string> make_map();
-};*/
-
 #include <iostream>
-//#include <string>
 #include <cstdlib>
 #include <algorithm>
 #include <vector>
 #include "Objects.hpp"
+#include "Definitions.hpp"
 #define DOORS_NUMBER 4
 
 using namespace std;
@@ -41,7 +18,7 @@ public:
     int walls;
     vector<string> str_map;
     int counter = 0;
-    Map(int _size = 40){
+    Map(int _size = MAP_SIZE){
         size = _size;
         key_pos_x = rand()%(_size - 2) + 1;
         key_pos_y = rand()%(_size - 2);
@@ -62,11 +39,6 @@ public:
             }
         }
         walls = 0;
-    }
-
-    void add_to_string_map(Object* obj){
-        str_map[counter] = obj->set_object();
-        counter++;
     }
 
     void make_row(){

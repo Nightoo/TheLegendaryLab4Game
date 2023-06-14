@@ -8,6 +8,7 @@
 #include "Game/Component/IWindowKeeper.hpp"
 #include "Game/Object/Room.hpp"
 #include "Game/Object/Player.hpp"
+#include "Definitions.hpp"
 
 class GameState : public IState, public IWindowKeeper
 {
@@ -23,7 +24,7 @@ public:
         : IWindowKeeper(mode_, title_)
     {
         this->app = app_;
-        this->window = new sf::RenderWindow(sf::VideoMode(800, 800), "Game");
+        this->window = new sf::RenderWindow(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Game");
         this->room = new Room();
         this->player = new Player(room);
         this->render();
