@@ -8,13 +8,17 @@
 class Enemy{
 public:
     Room* room;
-    int position_x = 1;
-    int position_y = 1;
+    int position_x = rand()%(MAP_SIZE - 2) + 1;
+    int position_y = rand()%(MAP_SIZE - 2) + 1;
 
     Enemy(Room *room_){
         room = room_;
         room->TileMap[position_x][position_y] = 'E';
     }
+
+    ~Enemy(){
+        room->TileMap[position_x][position_y] = ' ';
+    };
 
     void move(Player* player){
         int x = player->position_x;
@@ -40,6 +44,10 @@ public:
             else{
                 position_y += (y - position_y) / abs(y - position_y);
             }
+        }
+        if (x == position_x && y == position_y){
+            player->lives -= 1;
+            cout << player->lives << endl;
         }
         room->TileMap[position_x][position_y] = 'E';
     }

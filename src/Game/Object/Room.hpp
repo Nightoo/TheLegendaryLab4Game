@@ -40,6 +40,7 @@ public:
                     if (TileMap[i][j] == '#') {sprite.setTextureRect(sf::IntRect(4 * TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
                     if (TileMap[i][j] == 'P') {sprite.setTextureRect(sf::IntRect(5 * TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
                     if (TileMap[i][j] == 'E') {sprite.setTextureRect(sf::IntRect(6 * TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
+                    if (TileMap[i][j] == 'B') {sprite.setTextureRect(sf::IntRect(110,0,TEXTURE_SIZE,TEXTURE_SIZE));};
                     sprite.setPosition(sf::Vector2f(i * TEXTURE_SIZE, j * TEXTURE_SIZE));
                     window->draw(sprite);
                 }

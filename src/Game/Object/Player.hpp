@@ -9,11 +9,13 @@ public:
     int position_x = PLAYER_START_X;
     int position_y = PLAYER_START_Y;
     bool have_key;
+    int lives;
 
     Player(Room *room_){
         room = room_;
         room->TileMap[position_x][position_y] = 'P';
         have_key = false;
+        lives = 3;
     }
 
     void move_up(){

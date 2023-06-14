@@ -10,6 +10,7 @@
 #include "Game/Object/Player.hpp"
 #include "Game/Object/Enemy.hpp"
 #include "Definitions.hpp"
+#include <unistd.h>
 
 class GameState : public IState, public IWindowKeeper
 {
@@ -17,7 +18,7 @@ public:
     Application *app;
     Room *room;
     Player *player;
-    Enemy *enemy;
+    Enemy* enemies[4];
 
     GameState(
         Application *app_,
@@ -29,7 +30,9 @@ public:
         this->window = new sf::RenderWindow(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Game");
         this->room = new Room();
         this->player = new Player(room);
-        this->enemy = new Enemy(room);
+        for (int i = 0; i < ENEMY_NUMBER; i++){
+            enemies[i] = new Enemy(room);
+        }
         this->render();
     }
 
@@ -54,7 +57,12 @@ public:
                 if (event.key.code == sf::Keyboard::A) { player->move_left(); }
                 if (event.key.code == sf::Keyboard::S) { player->move_down(); }
                 if (event.key.code == sf::Keyboard::D) { player->move_right(); }
-                enemy->move(player);
+                for (int i = 0; i < ENEMY_NUMBER; i++){
+                    enemies[i]->move(player);
+                }
+            }
+            if (player->lives < 1){
+                return false;
             }
             window->display();
         }

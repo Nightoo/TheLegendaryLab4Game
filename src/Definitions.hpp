@@ -1,8 +1,9 @@
 #define MENU_WIDTH 400
 #define MENU_HEIGHT 600
-#define MAP_SIZE 40
+#define MAP_SIZE 39
 #define TEXTURE_SIZE 20
 #define PLAYER_START_X 20
 #define PLAYER_START_Y 35
 #define GAME_WIDTH 800
 #define GAME_HEIGHT 800
+#define ENEMY_NUMBER 4
