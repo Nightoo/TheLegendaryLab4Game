@@ -21,7 +21,12 @@ public:
     void move_up(){
         room->TileMap[position_x][position_y - 1] = pick_up_key(room->TileMap[position_x][position_y - 1]);
         if (can_move(room->TileMap[position_x][position_y - 1])) {
-            room->TileMap[position_x][position_y] = room->TileMap[position_x][position_y - 1];
+            if (room->TileMap[position_x][position_y - 1] == 'E'){
+                room->TileMap[position_x][position_y] = ' ';
+            }
+            else {
+                room->TileMap[position_x][position_y] = room->TileMap[position_x][position_y - 1];
+            }
             room->TileMap[position_x][position_y - 1] = 'P';
             position_y -= 1;
         }
@@ -30,7 +35,12 @@ public:
     void move_down(){
         room->TileMap[position_x][position_y+1] = pick_up_key(room->TileMap[position_x][position_y+1]);
         if (can_move(room->TileMap[position_x][position_y+1])) {
-            room->TileMap[position_x][position_y] = room->TileMap[position_x][position_y + 1];
+            if (room->TileMap[position_x][position_y + 1] == 'E'){
+                room->TileMap[position_x][position_y] = ' ';
+            }
+            else {
+                room->TileMap[position_x][position_y] = room->TileMap[position_x][position_y + 1];
+            }
             room->TileMap[position_x][position_y + 1] = 'P';
             position_y += 1;
         }
@@ -39,7 +49,12 @@ public:
     void move_left(){
         room->TileMap[position_x - 1][position_y] = pick_up_key(room->TileMap[position_x - 1][position_y]);
         if (can_move(room->TileMap[position_x - 1][position_y])) {
-            room->TileMap[position_x][position_y] = room->TileMap[position_x - 1][position_y];
+            if (room->TileMap[position_x - 1][position_y] == 'E'){
+                room->TileMap[position_x][position_y] = ' ';
+            }
+            else {
+                room->TileMap[position_x][position_y] = room->TileMap[position_x - 1][position_y];
+            }
             room->TileMap[position_x - 1][position_y] = 'P';
             position_x -= 1;
         }
@@ -48,7 +63,12 @@ public:
     void move_right(){
         room->TileMap[position_x + 1][position_y] = pick_up_key(room->TileMap[position_x + 1][position_y]);
         if (can_move(room->TileMap[position_x + 1][position_y])) {
-            room->TileMap[position_x][position_y] = room->TileMap[position_x + 1][position_y];
+            if (room->TileMap[position_x + 1][position_y] == 'E'){
+                room->TileMap[position_x][position_y] = ' ';
+            }
+            else {
+                room->TileMap[position_x][position_y] = room->TileMap[position_x + 1][position_y];
+            }
             room->TileMap[position_x + 1][position_y] = 'P';
             position_x += 1;
         }

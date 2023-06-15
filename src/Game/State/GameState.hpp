@@ -53,13 +53,14 @@ public:
             window->clear();
             render();
             if (event.type == sf::Event::KeyPressed) {
+                for (int i = 0; i < ENEMY_NUMBER; i++){
+                    enemies[i]->move(player);
+                }
                 if (event.key.code == sf::Keyboard::W) { player->move_up(); }
                 if (event.key.code == sf::Keyboard::A) { player->move_left(); }
                 if (event.key.code == sf::Keyboard::S) { player->move_down(); }
                 if (event.key.code == sf::Keyboard::D) { player->move_right(); }
-                for (int i = 0; i < ENEMY_NUMBER; i++){
-                    enemies[i]->move(player);
-                }
+
             }
             if (player->lives < 1){
                 return false;
