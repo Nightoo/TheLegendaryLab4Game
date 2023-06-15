@@ -14,6 +14,7 @@ public:
     std::string mode;
     std::string title;
     Menu *menu;
+    string difficulty;
 
     SelectLevelState(
         Application *app_,
@@ -38,7 +39,7 @@ public:
         window->clear();
         window->close();
         std::cout << "Select -> Game" << std::endl;
-        auto next_state = new GameState(app);
+        auto next_state = new GameState(app, difficulty, difficulty);
         app->set_next_state(next_state);
     }
 
@@ -60,6 +61,15 @@ public:
         window->clear();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
         {
+            if (menu->easy.selected){
+                difficulty = "easy";
+            }
+            if (menu->medium.selected){
+                difficulty = "medium";
+            }
+            if (menu->hard.selected){
+                difficulty = "hard";
+            }
             return false;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))

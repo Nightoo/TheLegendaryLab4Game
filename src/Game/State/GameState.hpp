@@ -18,7 +18,8 @@ public:
     Application *app;
     Room *room;
     Player *player;
-    Enemy* enemies[4];
+    Enemy* enemies[10];
+    int ENEMY_NUMBER;
 
     GameState(
         Application *app_,
@@ -30,6 +31,16 @@ public:
         this->window = new sf::RenderWindow(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Game");
         this->room = new Room();
         this->player = new Player(room);
+        mode = mode_;
+        if (mode == "easy"){
+            ENEMY_NUMBER = 0;
+        }
+        if (mode == "medium"){
+            ENEMY_NUMBER = 4;
+        }
+        if (mode == "hard"){
+            ENEMY_NUMBER = 10;
+        }
         for (int i = 0; i < ENEMY_NUMBER; i++){
             enemies[i] = new Enemy(room);
         }
@@ -47,6 +58,25 @@ public:
         room->show(window);
     }
 
+    void shooting(){
+        if (player->ammo >= 1) {
+            player->shoot();
+            for (int i = 0; i < ENEMY_NUMBER; i++) {
+                if (abs(enemies[i]->position_x - player->position_x) <= 2 &&
+                    abs(enemies[i]->position_y - player->position_y) <= 2) {
+                    delete enemies[i];
+                }
+            }
+            sf::CircleShape r = sf::CircleShape(TEXTURE_SIZE * 2.5);
+            r.setPosition(
+                    sf::Vector2f((player->position_x - 2) * TEXTURE_SIZE, (player->position_y - 2) * TEXTURE_SIZE));
+            r.setFillColor(sf::Color::Yellow);
+            window->draw(r);
+            window->display();
+            sleep(1);
+        }
+    }
+
     bool update() override {
         sf::Event event;
         while (window->pollEvent(event)) {
@@ -60,6 +90,7 @@ public:
                 if (event.key.code == sf::Keyboard::A) { player->move_left(); }
                 if (event.key.code == sf::Keyboard::S) { player->move_down(); }
                 if (event.key.code == sf::Keyboard::D) { player->move_right(); }
+                if (event.key.code == sf::Keyboard::Space) {shooting();}
 
             }
             if (player->lives < 1){

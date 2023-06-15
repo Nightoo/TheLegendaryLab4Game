@@ -20,8 +20,8 @@ public:
     int counter = 0;
     Map(int _size = MAP_SIZE){
         size = _size;
-        key_pos_x = rand()%(_size - 2) + 1;
-        key_pos_y = rand()%(_size - 2);
+        key_pos_x = 1;
+        key_pos_y = 0;
         doors = (rand()%DOORS_NUMBER) + 1;
         Doors = new int[doors];
         for (int i = 0; i < doors; i++){
@@ -58,7 +58,7 @@ public:
                 }
             }
             else{
-                r = rand()%20;
+                r = rand()%10;
                 if (r == 0){
                     Rock *obj = new Rock();
                     str_map.push_back(obj->symbol);
@@ -93,7 +93,7 @@ public:
                         walls++;
                     }
                 } else {
-                    r = rand() % 20;
+                    r = rand() % 10;
                     if (r == 0) {
                         Rock *obj = new Rock();
                         str_map.push_back(obj->symbol);

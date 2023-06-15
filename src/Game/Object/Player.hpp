@@ -10,12 +10,14 @@ public:
     int position_y = PLAYER_START_Y;
     bool have_key;
     int lives;
+    int ammo;
 
     Player(Room *room_){
         room = room_;
         room->TileMap[position_x][position_y] = 'P';
         have_key = false;
         lives = 3;
+        ammo = 3;
     }
 
     void move_up(){
@@ -80,6 +82,10 @@ public:
             return ' ';
         }
         return s;
+    }
+
+    void shoot(){
+        ammo -= 1;
     }
 
     bool can_move(char s){

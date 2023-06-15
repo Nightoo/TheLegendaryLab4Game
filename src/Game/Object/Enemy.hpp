@@ -19,8 +19,8 @@ public:
 
     ~Enemy(){
         room->TileMap[position_x][position_y] = 'D';
-        position_x = 0;
-        position_y = 0;
+        position_x = -10;
+        position_y = -10;
         is_alive = false;
     };
 
@@ -65,8 +65,8 @@ public:
             }
         }
         else{
-            position_x = 0;
-            position_y = 0;
+            position_x = -10;
+            position_y = -10;
         }
     }
 
