@@ -18,8 +18,8 @@ public:
         room->TileMap[position_x][position_y] = 'P';
         have_key = false;
         win = false;
-        lives = 3;
-        ammo = 3;
+        lives = LIVES;
+        ammo = BOMBS;
     }
 
     void move_up(){

@@ -23,8 +23,10 @@ public:
     Chest* chest;
     sf::Texture heart_t;
     sf::Texture bomb_t;
-    sf::Sprite heart;
-    sf::Sprite bomb;
+    sf::Texture key_t;
+    sf::Sprite hearts[LIVES];
+    sf::Sprite bombs[BOMBS];
+    sf::Sprite key;
     int ENEMY_NUMBER;
     bool win;
 
@@ -40,6 +42,26 @@ public:
         this->player = new Player(room);
         this->chest = new Chest(room);
         this->win = false;
+
+        heart_t.loadFromFile("heart.png");
+        bomb_t.loadFromFile("bomb.png");
+        key_t.loadFromFile("key.png");
+        key.setTexture(key_t);
+
+        for(int i = 0; i < LIVES; i++){
+            hearts[i].setTexture(heart_t);
+            hearts[i].setPosition(sf::Vector2f(GAME_WIDTH - INDICATOR_SIZE, i * INDICATOR_SIZE));
+            window->draw(hearts[i]);
+        }
+
+        for(int i = 0; i < BOMBS; i++){
+            bombs[i].setTexture(bomb_t);
+            bombs[i].setPosition(sf::Vector2f(GAME_WIDTH - INDICATOR_SIZE, GAME_HEIGHT - (i + 1) * INDICATOR_SIZE));
+            window->draw(bombs[i]);
+        }
+
+        key.setPosition(sf::Vector2f(GAME_WIDTH - INDICATOR_SIZE, GAME_HEIGHT / 2 - INDICATOR_SIZE / 2));
+
         mode = mode_;
 
         if (mode == "easy"){
@@ -68,6 +90,22 @@ public:
         room->show(window);
     }
 
+    void indicators(){
+        for(int i = 0; i < player->ammo; i++){
+            bombs[i].setTexture(bomb_t);
+            bombs[i].setPosition(sf::Vector2f(GAME_WIDTH - INDICATOR_SIZE, GAME_HEIGHT - (i + 1) * INDICATOR_SIZE));
+            window->draw(bombs[i]);
+        }
+        for(int i = 0; i < player->lives; i++){
+            hearts[i].setTexture(heart_t);
+            hearts[i].setPosition(sf::Vector2f(GAME_WIDTH - INDICATOR_SIZE, i * INDICATOR_SIZE));
+            window->draw(hearts[i]);
+        }
+        if (player->have_key){
+            window->draw(key);
+        }
+    }
+
     void shooting(){
         if (player->ammo >= 1) {
             player->shoot();
@@ -83,6 +121,7 @@ public:
             boom.setTexture(boom_t);
             boom.setPosition(sf::Vector2f((player->position_x - 2) * TEXTURE_SIZE, (player->position_y - 2) * TEXTURE_SIZE));
             window->draw(boom);
+            indicators();
             window->display();
             sleep(1);
         }
@@ -111,6 +150,7 @@ public:
                 win = true;
                 return false;
             }
+            indicators();
             window->display();
         }
         return true;
