@@ -136,11 +136,13 @@ public:
                 for (int i = 0; i < ENEMY_NUMBER; i++){
                     enemies[i]->move(player);
                 }
+
                 if (event.key.code == sf::Keyboard::W) { player->move_up(); }
                 if (event.key.code == sf::Keyboard::A) { player->move_left(); }
                 if (event.key.code == sf::Keyboard::S) { player->move_down(); }
                 if (event.key.code == sf::Keyboard::D) { player->move_right(); }
                 if (event.key.code == sf::Keyboard::Space) {shooting();}
+                if (event.key.code == sf::Keyboard::Escape) {return false;}
 
             }
             if (player->lives < 1){

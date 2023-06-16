@@ -12,6 +12,7 @@ public:
     std::string TileMap[MAP_SIZE];
     sf::Texture texture;
     sf::Sprite sprite;
+    int monster;
 
     Room()
     {
@@ -28,6 +29,7 @@ public:
         }
         texture.loadFromFile("texture.png");
         sprite.setTexture(texture);
+        monster = 8 + rand()%4;
     }
 
     void show(sf::RenderWindow *window){
@@ -38,10 +40,10 @@ public:
                     if (TileMap[i][j] == '*') {sprite.setTextureRect(sf::IntRect(2 * TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
                     if (TileMap[i][j] == 'K') {sprite.setTextureRect(sf::IntRect(3 * TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
                     if (TileMap[i][j] == '#') {sprite.setTextureRect(sf::IntRect(4 * TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
-                    if (TileMap[i][j] == 'E') {sprite.setTextureRect(sf::IntRect(6 * TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
+                    if (TileMap[i][j] == 'E') {sprite.setTextureRect(sf::IntRect(monster * TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
                     if (TileMap[i][j] == 'P') {sprite.setTextureRect(sf::IntRect(5 * TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
                     if (TileMap[i][j] == 'C') {sprite.setTextureRect(sf::IntRect(7 * TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
-                    if (TileMap[i][j] == 'D') {sprite.setTextureRect(sf::IntRect(8*TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
+                    if (TileMap[i][j] == 'D') {sprite.setTextureRect(sf::IntRect(6 * TEXTURE_SIZE,0,TEXTURE_SIZE,TEXTURE_SIZE));};
                     sprite.setPosition(sf::Vector2f(i * TEXTURE_SIZE, j * TEXTURE_SIZE));
                     window->draw(sprite);
                 }
