@@ -21,20 +21,27 @@ public:
     Player *player;
     Enemy* enemies[10];
     Chest* chest;
+    sf::Texture heart_t;
+    sf::Texture bomb_t;
+    sf::Sprite heart;
+    sf::Sprite bomb;
     int ENEMY_NUMBER;
+    bool win;
 
     GameState(
         Application *app_,
         std::string mode_ = "mode",
         std::string title_ = "title")
         : IWindowKeeper(mode_, title_)
-    {
+        {
         this->app = app_;
         this->window = new sf::RenderWindow(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Game");
         this->room = new Room();
         this->player = new Player(room);
         this->chest = new Chest(room);
+        this->win = false;
         mode = mode_;
+
         if (mode == "easy"){
             ENEMY_NUMBER = 0;
         }
@@ -100,6 +107,10 @@ public:
             if (player->lives < 1){
                 return false;
             }
+            if (player->win){
+                win = true;
+                return false;
+            }
             window->display();
         }
         return true;
@@ -108,12 +119,11 @@ public:
     void go_next() override
     {
         std::cout << "Game -> Exit" << std::endl;
-        app->set_next_state(new ExitState(app));
+        app->set_next_state(new ExitState(app, win));
     }
 
     bool is_on() override
     {
-        //std::cout << "Game" << std::endl;
         return true;
     }
 };
