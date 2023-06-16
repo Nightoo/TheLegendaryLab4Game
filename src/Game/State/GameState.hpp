@@ -9,6 +9,7 @@
 #include "Game/Object/Room.hpp"
 #include "Game/Object/Player.hpp"
 #include "Game/Object/Enemy.hpp"
+#include "Game/Object/Chest.hpp"
 #include "Definitions.hpp"
 #include <unistd.h>
 
@@ -19,6 +20,7 @@ public:
     Room *room;
     Player *player;
     Enemy* enemies[10];
+    Chest* chest;
     int ENEMY_NUMBER;
 
     GameState(
@@ -31,6 +33,7 @@ public:
         this->window = new sf::RenderWindow(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Game");
         this->room = new Room();
         this->player = new Player(room);
+        this->chest = new Chest(room);
         mode = mode_;
         if (mode == "easy"){
             ENEMY_NUMBER = 0;
@@ -67,11 +70,12 @@ public:
                     delete enemies[i];
                 }
             }
-            sf::CircleShape r = sf::CircleShape(TEXTURE_SIZE * 2.5);
-            r.setPosition(
-                    sf::Vector2f((player->position_x - 2) * TEXTURE_SIZE, (player->position_y - 2) * TEXTURE_SIZE));
-            r.setFillColor(sf::Color::Yellow);
-            window->draw(r);
+            sf::Texture boom_t;
+            sf::Sprite boom;
+            boom_t.loadFromFile("boom.png");
+            boom.setTexture(boom_t);
+            boom.setPosition(sf::Vector2f((player->position_x - 2) * TEXTURE_SIZE, (player->position_y - 2) * TEXTURE_SIZE));
+            window->draw(boom);
             window->display();
             sleep(1);
         }

@@ -9,6 +9,7 @@ public:
     int position_x = PLAYER_START_X;
     int position_y = PLAYER_START_Y;
     bool have_key;
+    bool win;
     int lives;
     int ammo;
 
@@ -16,6 +17,7 @@ public:
         room = room_;
         room->TileMap[position_x][position_y] = 'P';
         have_key = false;
+        win = false;
         lives = 3;
         ammo = 3;
     }
@@ -92,10 +94,11 @@ public:
         if (s == '*' || s == '#'){
             return false;
         }
-        if (s == '0' && have_key){
+        if (s == 'C' && have_key){
+            win = true;
             return true;
         }
-        if (s == '0' && !have_key){
+        if (s == 'C' && !have_key){
             return false;
         }
         return true;
